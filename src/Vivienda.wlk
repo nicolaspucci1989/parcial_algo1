@@ -40,6 +40,10 @@ class Vivienda {
 	method estasAsignada(){
 		estaAsignada = true
 	}
+	
+	method asignada(){
+		return estaAsignada 		
+	}
 }
 
 class Departamento inherits Vivienda{

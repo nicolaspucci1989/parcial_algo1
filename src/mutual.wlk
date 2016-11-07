@@ -11,8 +11,16 @@ object mutual {
 		viviendasRegistradas.add(vivienda)
 	}	
 	
+	method registrarViviendas(viviendas){
+		viviendasRegistradas = viviendas
+	}
+	
 	method registrarFamilia(familia) {
 		familiasSocias.add(familia)
+	}
+	
+	method registrarFamilias(familias){
+		familiasSocias = familias
 	}
 	
 	method registrarTrabajo(vivienda, trabajador, descripcion, horas){
@@ -25,12 +33,8 @@ object mutual {
 		if(trabajador.esMenorDeEdad()) throw new UserException("No puede trabajar es menor")		
 	}
 	
-	method sociosSinCasaPropio(){
-		return familiasSocias.filter({ familia => !familia.tieneCasaPropia()})
-	}
-	
 	method familiasSinCasaAlDia(){
-		return self.sociosSinCasaPropio().filter({ familia => familia.estaAlDia(horasDeTrabajoMinimas)})
+		return familiasSocias.filter({ familia => familia.estaAlDia(horasDeTrabajoMinimas) and !familia.tieneCasaPropia()})
 	}
 	
 	method familiasQueEntranEn(vivienda){
@@ -45,13 +49,14 @@ object mutual {
 		var familiaDestinataria = self.asignarVivienda(vivienda) 
 		familiaDestinataria.tenesVivienda()
 		vivienda.estasAsignada()			
-	}
-	
-	method viviendasTerminadas(){
-		return viviendasRegistradas.filter({ vivienda => vivienda.estaTerminada() })
 	}	
 	
-	method asignarViviendas(){
-		self.viviendasTerminadas().forEach({ vivienda => self.darVivienda(vivienda) })	
+	method viviendasTerminadasSinFamilia(){
+		return viviendasRegistradas.filter({ vivienda => vivienda.estaTerminada() and
+														!vivienda.asignada()})
+	}	
+	
+	method asignarTodasLasViviendasPosibles(){
+		self.viviendasTerminadasSinFamilia().forEach({ vivienda => self.darVivienda(vivienda) })	
 	}	
 }

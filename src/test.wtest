@@ -44,3 +44,12 @@ test "Una vivienda es asignada a la familia que este al dia, entre justo y que m
 	assert.equals(familia2, mutual.asignarVivienda(casa))
 }
 
+test "Se asignan todas las viviendas posibles"{
+	var familias = [fixture.crearFamilia1(), fixture.crearFamilia2(), fixture.crearFamilia3(), fixture.crearFamilia4()]
+	var viviendaNoAsignada = new Departamento(100,1000)
+	var viviendas = [fixture.crearCasa2Ambientes(), fixture.crearCasa3Ambientes(), fixture.crearCasa4Ambientes(), viviendaNoAsignada]
+	mutual.registrarFamilias(familias)
+	mutual.registrarViviendas(viviendas)
+	mutual.asignarTodasLasViviendasPosibles()	
+	assert.equals([viviendaNoAsignada], viviendas.filter({ vivienda => !vivienda.asignada() }) )
+}
