@@ -37,7 +37,7 @@ class Vivienda {
 		return self.horasTrabajadas() > cantidadDeHorasDeTrabajoNecesaciras 
 	}
 	
-	method darVivienda(){
+	method estasAsignada(){
 		estaAsignada = true
 	}
 }

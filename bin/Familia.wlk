@@ -28,7 +28,7 @@ class Familia {
 		return tieneCasaPropia		
 	}
 	
-	method darVivienda(){
+	method tenesVivienda(){
 		tieneCasaPropia = true
 	}
 }

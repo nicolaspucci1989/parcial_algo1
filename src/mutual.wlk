@@ -43,9 +43,8 @@ object mutual {
 	
 	method darVivienda(vivienda){
 		var familiaDestinataria = self.asignarVivienda(vivienda) 
-		familiaDestinataria.darVivienda()
-		familiasSocias.remove(familiaDestinataria)
-		viviendasRegistradas.remove(vivienda)		
+		familiaDestinataria.tenesVivienda()
+		vivienda.estasAsignada()			
 	}
 	
 	method viviendasTerminadas(){
