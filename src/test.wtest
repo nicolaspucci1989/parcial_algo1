@@ -1,0 +1,46 @@
+import Vivienda.*
+import Persona.*
+import mutual.*
+import Familia.*
+import fixture.*
+
+test "Se registra una persona menor de edad, tira error"{
+	var menor = new Persona(12)
+	var vivienda = new Casa(100, 3)
+	assert.throwsExceptionWithMessage("No puede trabajar es menor", {mutual.registrarTrabajo(vivienda, menor, "descripcion" , 10)})
+}
+
+test "Distintos socios trabajan en una vivenda, los socios que trabajaron en la vivienda es igual
+a las personas que trabajaron en ella."{
+	var jose = new Persona(33)
+	var maria = new Persona(29)
+	var casa = new Casa(100, 4)
+	var listaDeTrabajadores = #{maria, jose}
+	mutual.registrarTrabajo(casa, jose,"trabaja jose", 12)
+	mutual.registrarTrabajo(casa, maria,"trabaja mari", 16)
+	mutual.registrarTrabajo(casa, jose,"trabaja jose", 19)
+	
+	assert.equals(listaDeTrabajadores.size(), casa.sociosQueTrabajaron())
+}
+
+test "Un socio con horas trabajadas mayor o igual a las oras minimas de trabajo esta al dia"{
+	var familia = fixture.crearFamilia1()	
+	var horasMinimas = 60
+	assert.that(familia.estaAlDia(horasMinimas))
+}
+
+test "Dada una vivienda, esta puede ser asignada a todas las familias que esten al dia y que entren justo en la vivienda"{	
+	var familia1 = fixture.crearFamilia1()
+	var familia2 = fixture.crearFamilia4()
+	var casa = fixture.crearCasa4Ambientes()
+	fixture.registrarFamiliasYcasa(familia1, familia2, fixture.crearFamilia2(), fixture.crearFamilia3(), casa)
+	assert.equals([familia1, familia2], mutual.familiasQueEntranEn(casa))
+}
+
+test "Una vivienda es asignada a la familia que este al dia, entre justo y que mas trabajo."{
+	var casa = fixture.crearCasa4Ambientes()
+	var familia2 = fixture.crearFamilia4()
+	fixture.registrarFamiliasYcasa(fixture.crearFamilia1(), fixture.crearFamilia2(), fixture.crearFamilia3(), familia2, casa)
+	assert.equals(familia2, mutual.asignarVivienda(casa))
+}
+
